@@ -6,6 +6,8 @@
 #include "die.h"
 #include "roll.h"
 #include "shooter.h"
+#include "come_out_phase.h"
+#include "point_phase.h"
 
 TEST_CASE("Verify Test Configuration", "verification") {
 	REQUIRE(true == true);
@@ -43,6 +45,41 @@ TEST_CASE("shooter returns a Roll and the roll result has one of the following v
 	for (int i=0; i < 10; ++i) {
 	  value = shooter.throw_die(die1, die2);
 		REQUIRE(((value->roll_value() > 1) && (value->roll_value() < 13)));
+	}
+}
+
+TEST_CASE("Test ComeOutPhase get_outcomes returns correct values") {
+	std::srand(time(0));
+	Die die1, die2;
+	Roll roll(die1, die2);
+	Roll* rollptr = &roll;
+	ComeOutPhase comeout;
+	RollOutcome value;
+
+	for (int i = 0; i < 10; ++i) {
+		value = comeout.get_outcome(rollptr);
+		REQUIRE(((value == RollOutcome::Natural) || (value == RollOutcome::Point)|| (value == RollOutcome::Craps)));
+		REQUIRE((value == RollOutcome::Seven_Out) == false);
+		REQUIRE((value == RollOutcome::NoPoint) == false);
+	}
+
+
+}
+
+TEST_CASE("Test PointPhase get_outcomes returns correct values") {
+	std::srand(time(0));
+	Die die1, die2;
+	Roll roll(die1, die2);
+	Roll* rollptr = &roll;
+	PointPhase Point(0);
+	RollOutcome value;
+
+	for (int i =0; i < 10; ++i) {
+		value = Point.get_outcome(rollptr);
+
+		REQUIRE(((value == RollOutcome::Point) || (value == RollOutcome::Seven_Out) || (value == RollOutcome::NoPoint)));
+		REQUIRE((value == RollOutcome::Craps) == false);
+		REQUIRE((value == RollOutcome::Natural) == false);
 	}
 
 }
