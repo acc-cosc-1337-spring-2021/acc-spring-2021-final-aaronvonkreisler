@@ -1,3 +1,6 @@
+#ifndef DIE_H
+#define DIE_H
+
 
 class Die {
   private: 
@@ -8,3 +11,5 @@ class Die {
     void roll();
     int rolled_value();
 };
+
+#endif
