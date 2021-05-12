@@ -17,7 +17,7 @@ Roll* Shooter::throw_die(Die& die1, Die& die2){
 
 std::ostream& operator<<(std::ostream& out, Shooter& shooter) {
   for (auto roll: shooter.rolls) {
-    out<<roll->roll_value();
+    out<<roll->roll_value()<<"\n";
   }
 
   return out;
